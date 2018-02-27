@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227142218) do
+ActiveRecord::Schema.define(version: 20180227142830) do
 
   create_table "countries", force: :cascade do |t|
     t.string "country_code", limit: 2
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20180227142218) do
     t.integer "panel_provider_id"
     t.index ["country_id"], name: "index_location_groups_on_country_id"
     t.index ["panel_provider_id"], name: "index_location_groups_on_panel_provider_id"
+  end
+
+  create_table "location_groups_locations", id: false, force: :cascade do |t|
+    t.integer "location_id", null: false
+    t.integer "location_group_id", null: false
+    t.index ["location_group_id", "location_id"], name: "index_location_groups_locations_join_table"
+    t.index ["location_id", "location_group_id"], name: "index_locations_location_groups_join_table"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "external_id"
+    t.string "secret_code"
   end
 
   create_table "panel_providers", force: :cascade do |t|
