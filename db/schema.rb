@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 20180301115646) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "access_tokens", force: :cascade do |t|
-    t.integer "panel_provider_id"
+    t.bigint "panel_provider_id"
     t.string "key", null: false
     t.datetime "expiration_date"
     t.index ["key"], name: "index_access_tokens_on_key", unique: true
@@ -22,29 +25,29 @@ ActiveRecord::Schema.define(version: 20180301115646) do
 
   create_table "countries", force: :cascade do |t|
     t.string "country_code", limit: 2
-    t.integer "panel_provider_id"
+    t.bigint "panel_provider_id"
     t.index ["country_code"], name: "index_countries_on_country_code", unique: true
     t.index ["panel_provider_id"], name: "index_countries_on_panel_provider_id"
   end
 
   create_table "countries_target_groups", id: false, force: :cascade do |t|
-    t.integer "target_group_id", null: false
-    t.integer "country_id", null: false
+    t.bigint "target_group_id", null: false
+    t.bigint "country_id", null: false
     t.index ["country_id", "target_group_id"], name: "index_country_target_group_join_table"
     t.index ["target_group_id", "country_id"], name: "index_target_group_country_join_table"
   end
 
   create_table "location_groups", force: :cascade do |t|
     t.string "name"
-    t.integer "country_id"
-    t.integer "panel_provider_id"
+    t.bigint "country_id"
+    t.bigint "panel_provider_id"
     t.index ["country_id"], name: "index_location_groups_on_country_id"
     t.index ["panel_provider_id"], name: "index_location_groups_on_panel_provider_id"
   end
 
   create_table "location_groups_locations", id: false, force: :cascade do |t|
-    t.integer "location_id", null: false
-    t.integer "location_group_id", null: false
+    t.bigint "location_id", null: false
+    t.bigint "location_group_id", null: false
     t.index ["location_group_id", "location_id"], name: "index_location_groups_locations_join_table"
     t.index ["location_id", "location_group_id"], name: "index_locations_location_groups_join_table"
   end
@@ -64,10 +67,14 @@ ActiveRecord::Schema.define(version: 20180301115646) do
     t.string "name"
     t.string "external_id"
     t.string "secret_code"
-    t.integer "parent_id", null: false
-    t.integer "panel_provider_id"
+    t.integer "parent", null: false
+    t.bigint "panel_provider_id"
     t.index ["panel_provider_id"], name: "index_target_groups_on_panel_provider_id"
-    t.index ["parent_id"], name: "index_target_groups_on_parent_id"
   end
 
+  add_foreign_key "access_tokens", "panel_providers"
+  add_foreign_key "countries", "panel_providers"
+  add_foreign_key "location_groups", "countries"
+  add_foreign_key "location_groups", "panel_providers"
+  add_foreign_key "target_groups", "panel_providers"
 end
