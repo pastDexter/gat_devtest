@@ -67,9 +67,10 @@ ActiveRecord::Schema.define(version: 20180301115646) do
     t.string "name"
     t.string "external_id"
     t.string "secret_code"
-    t.integer "parent", null: false
+    t.bigint "parent_id"
     t.bigint "panel_provider_id"
     t.index ["panel_provider_id"], name: "index_target_groups_on_panel_provider_id"
+    t.index ["parent_id"], name: "index_target_groups_on_parent_id"
   end
 
   add_foreign_key "access_tokens", "panel_providers"
@@ -77,4 +78,5 @@ ActiveRecord::Schema.define(version: 20180301115646) do
   add_foreign_key "location_groups", "countries"
   add_foreign_key "location_groups", "panel_providers"
   add_foreign_key "target_groups", "panel_providers"
+  add_foreign_key "target_groups", "target_groups", column: "parent_id"
 end
