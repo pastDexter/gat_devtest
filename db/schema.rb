@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180228145219) do
+ActiveRecord::Schema.define(version: 20180228153507) do
+
+  create_table "access_tokens", force: :cascade do |t|
+    t.integer "panel_provider_id"
+    t.string "key", null: false
+    t.datetime "expiration_date"
+    t.index ["key"], name: "index_access_tokens_on_key", unique: true
+    t.index ["panel_provider_id"], name: "index_access_tokens_on_panel_provider_id"
+  end
 
   create_table "countries", force: :cascade do |t|
     t.string "country_code", limit: 2
