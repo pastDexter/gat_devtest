@@ -4,5 +4,8 @@ Rails.application.routes.draw do
       resource :authorization, only: :create
       get 'locations/:country_code' => 'locations#index'
     end
+    namespace :public do
+      get 'locations/:country_code' => 'locations#index'
+    end
   end
 end

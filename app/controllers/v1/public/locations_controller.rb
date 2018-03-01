@@ -1,10 +1,10 @@
 module V1
-  module Private
+  module Public
     class LocationsController < BaseController
 
       def index
         country = Country.find_by!(country_code: params[:country_code])
-        locations = Location.for_panel_provider(current_panel_provider).for_country(country)
+        locations = Location.for_country(country)
         render json: locations
       end
 
