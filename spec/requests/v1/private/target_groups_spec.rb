@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'V1 Private Locations', type: :request do
-  let(:base_url) { '/v1/private/locations' }
+describe 'V1 Private Target Groups', type: :request do
+  let(:base_url) { '/v1/private/target_groups' }
 
   let(:panel_provider1) { create(:panel_provider, :with_access_token) }
   let(:token) { panel_provider1.access_tokens.first }
@@ -9,15 +9,14 @@ describe 'V1 Private Locations', type: :request do
   let(:country1) { create(:country, panel_provider: panel_provider1) }
   let(:country2) { create(:country, panel_provider: panel_provider2) }
 
-  let(:location_group1) { create(:location_group, country: country1, panel_provider: panel_provider1) }
-  let(:location_group2) { create(:location_group, country: country2, panel_provider: panel_provider1) }
-  let(:location_group3) { create(:location_group, country: country2, panel_provider: panel_provider2) }
-
   describe 'GET #index' do
     before do
-      create_list(:location, 3, location_groups: [location_group1])
-      create(:location, location_groups: [location_group2])
-      create(:location, location_groups: [location_group3])
+      root = create(:target_group, countries: [country1], panel_provider: panel_provider1)
+      child = create(:target_group, parent: root)
+      create(:target_group, parent: child)
+
+      create(:target_group, countries: [country1], panel_provider: panel_provider2)
+      create(:target_group, countries: [country2], panel_provider: panel_provider1)
     end
 
     context 'with valid token' do
@@ -34,7 +33,13 @@ describe 'V1 Private Locations', type: :request do
         end
 
         it 'includes necessary attributes' do
-          expect(json_body.first.keys).to contain_exactly('external_id', 'name', 'secret_code')
+          expect(json_body.first.keys).to contain_exactly('external_id', 'name', 'secret_code', 'parent_external_id')
+        end
+
+        it 'includes parent_external_id which corresponds to its parent' do
+          eids = json_body.map { |r| r['external_id'] }
+          parent_eids = json_body.map { |r| r['parent_external_id'] }.compact
+          expect(eids).to include(*parent_eids)
         end
       end
 
