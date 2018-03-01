@@ -11,9 +11,10 @@ gem 'rails', '~> 5.1.5'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
-
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+# Use activemodel serializers fo JSON serialization
+gem 'active_model_serializers'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
