@@ -12,8 +12,8 @@ module V1
 
       def authorize_panel_provider!
         token = AccessToken.find_by(key: request.authorization)
-        render_error('Invalid access token', :unauthorized) && return unless token
-        render_error('Access token expired', :unauthorized) if token.expired?
+        render_error({ access_token: ['is invalid'] }, :unauthorized) && return unless token
+        render_error({ access_token: ['is expired'] }, :unauthorized) if token.expired?
         @_panel_provider = token.panel_provider
       end
 

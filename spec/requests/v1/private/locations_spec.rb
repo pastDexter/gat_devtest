@@ -50,7 +50,7 @@ describe 'V1 Private Locations', type: :request do
       it 'returns 401 status code' do
         get("#{base_url}/PL")
         expect(response).to have_http_status(401)
-        expect(json_body).to eq('error' => 'Invalid access token')
+        expect(json_body).to have_errors('access_token' => ['is invalid'])
       end
     end
 
@@ -59,7 +59,7 @@ describe 'V1 Private Locations', type: :request do
         token.update(expiration_date: 2.days.ago)
         get_with_token("#{base_url}/XX", token)
         expect(response).to have_http_status(401)
-        expect(json_body).to eq('error' => 'Access token expired')
+        expect(json_body).to have_errors('access_token' => ['is expired'])
       end
     end
   end
