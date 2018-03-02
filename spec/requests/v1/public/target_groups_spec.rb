@@ -28,12 +28,12 @@ describe 'V1 Public Target Groups', type: :request do
       end
 
       it 'includes necessary attributes' do
-        expect(json_body.first.keys).to contain_exactly('external_id', 'name', 'parent_external_id')
+        expect(json_body.first.keys).to contain_exactly('id', 'name', 'parent_id')
       end
 
-      it 'includes parent_external_id which corresponds to its parent' do
-        eids = json_body.map { |r| r['external_id'] }
-        parent_eids = json_body.map { |r| r['parent_external_id'] }.compact
+      it 'includes parent_id which corresponds to its parent' do
+        eids = json_body.map { |r| r['id'] }
+        parent_eids = json_body.map { |r| r['parent_id'] }.compact
         expect(eids).to include(*parent_eids)
       end
     end

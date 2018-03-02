@@ -26,8 +26,8 @@ describe 'V1 Public Locations', type: :request do
         expect(json_body.size).to eq 3
       end
 
-      it 'includes external_id, name and secret_code attributes' do
-        expect(json_body.first.keys).to contain_exactly('external_id', 'name')
+      it 'includes necessary attributes' do
+        expect(json_body.first.keys).to contain_exactly('id', 'name')
       end
     end
 

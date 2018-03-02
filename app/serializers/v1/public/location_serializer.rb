@@ -1,5 +1,6 @@
 class V1::Public::LocationSerializer < ActiveModel::Serializer
+  include ExternalId
 
-  attributes :name, :external_id
+  attributes :name
 
 end

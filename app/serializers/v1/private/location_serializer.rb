@@ -1,5 +1,6 @@
 class V1::Private::LocationSerializer < ActiveModel::Serializer
+  include ExternalId
 
-  attributes :name, :external_id, :secret_code
+  attributes :name, :secret_code
 
 end
