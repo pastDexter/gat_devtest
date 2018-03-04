@@ -1,0 +1,237 @@
+swagger: "2.0"
+info:
+  description: "This is an API documentation for the devtest application."
+  version: "1.0.0"
+  title: "GAT Devtest"
+host: "loclahost:3000"
+basePath: "/v1"
+tags:
+- name: "private"
+  description: "Private API for panel providers"
+- name: "public"
+  description: "Public API for open access"
+schemes:
+- "https"
+paths:
+  /private/authorize:
+    post:
+      tags:
+      - "private"
+      description: "Obtain access token used for authorization in the private API"
+      operationId: "privateAuthorize"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: body
+        description: Panel provider secret code
+        schema:
+          type: object
+          required:
+          - code
+          properties:
+            code:
+              type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/AccessToken"
+  /private/locations/{countryCode}:
+    get:
+      tags:
+      - "private"
+      description: "Lists locations which belong to the selected country based on it's current panel provider"
+      operationId: "privateLocations"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "countryCode"
+        in: "path"
+        description: "2 letters country code"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PrivateLocation"
+      security:
+        - privateApiAuth: []
+  /private/target_groups/{countryCode}:
+    get:
+      tags:
+      - "private"
+      description: "Lists target groups which belong to the selected country based on it's current panel provider"
+      operationId: "privateTargetGroups"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "countryCode"
+        in: "path"
+        description: "2 letters country code"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PrivateTargetGroup"
+      security:
+        - privateApiAuth: []
+  /private/evaluate_target:
+    post:
+      tags:
+      - "private"
+      description: "Returns a price based on a logic specific to each panel provider used by a country"
+      operationId: "evaluateTarget"
+      produces:
+      - "application/json"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: body
+        name: body
+        description: The user to create.
+        schema:
+          type: object
+          required:
+          - country_code
+          - target_group
+          - locations
+          properties:
+            country_code:
+              type: "string"
+              description: "2 letters country code"
+            target_group_id:
+              type: "string"
+              description: "id of the target group"
+            locations:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                  panel_size:
+                    type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              price:
+                type: "integer"
+      security:
+        - privateApiAuth: []
+
+  /public/locations/{countryCode}:
+    get:
+      tags:
+      - "public"
+      description: "Lists locations which belong to the selected country"
+      operationId: "publicLocations"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "countryCode"
+        in: "path"
+        description: "2 letters country code"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PublicLocation"
+  /public/target_groups/{countryCode}:
+    get:
+      tags:
+      - "public"
+      description: "Lists target groups which belong to the selected country"
+      operationId: "publicTargetGroups"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "countryCode"
+        in: "path"
+        description: "2 letters country code"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PublicTargetGroup"
+securityDefinitions:
+  privateApiAuth:
+    type: "apiKey"
+    in:   "header"
+    name: "Authorization"
+definitions:
+  AccessToken:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+        description: "secret token used for authorization"
+      expiration_date:
+        type: "string"
+  PublicLocation:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      location_groups:
+        type: "array"
+        items:
+          $ref: "#/definitions/LocationGroup"
+  PrivateLocation:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      secret_code:
+        type: "string"
+      location_groups:
+        type: "array"
+        items:
+          $ref: "#/definitions/LocationGroup"
+  PublicTargetGroup:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      parent_id:
+        type: "string"
+  PrivateTargetGroup:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      secret_code:
+        type: "string"
+      parent_id:
+        type: "string"
+  LocationGroup:
+    type: "object"
+    properties:
+      name:
+        type: "string"
