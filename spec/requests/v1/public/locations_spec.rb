@@ -27,7 +27,7 @@ describe 'V1 Public Locations', type: :request do
       end
 
       it 'includes necessary attributes' do
-        expect(json_body.first.keys).to contain_exactly('id', 'name')
+        expect(json_body.first.keys).to contain_exactly('id', 'name', 'location_groups')
       end
     end
 

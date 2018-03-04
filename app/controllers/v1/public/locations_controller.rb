@@ -4,7 +4,7 @@ module V1
 
       def index
         country = Country.find_by!(country_code: params[:country_code])
-        locations = Location.for_country(country)
+        locations = Location.for_country(country).includes(:location_groups)
         render json: locations
       end
 
