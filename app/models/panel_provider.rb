@@ -1,6 +1,6 @@
 class PanelProvider < ApplicationRecord
 
-  enum pricing_logic: { time_a: 1 }
+  enum pricing_logic: { time_a: 1, time_nodes: 2, lotr_arrays: 3 }
 
   has_many :countries
   has_many :location_groups

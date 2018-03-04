@@ -8,7 +8,7 @@ module PricingLogic
     protected
 
     def factor
-      @_factor ||= fetch_multiplying_factor
+      @_factor ||= fetch_multiplying_factor.to_f
     end
 
     def fetch_multiplying_factor

@@ -1,6 +1,3 @@
-require 'nokogiri'
-require 'open-uri'
-
 module PricingLogic
   class TimeA < Web
     URL = 'http://time.com'

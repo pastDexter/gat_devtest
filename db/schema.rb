@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20180302154938) do
 
   create_table "panel_providers", force: :cascade do |t|
     t.string "code", null: false
-    t.integer "pricing_logic"
+    t.integer "pricing_logic", default: 1, null: false
     t.index ["code"], name: "index_panel_providers_on_code", unique: true
   end
 
