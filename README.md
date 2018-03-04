@@ -2,7 +2,7 @@
 
 Sample API created for a devtest. [Task description](https://github.com/pbc/devtest)
 
-**[[LIVE DEMO]](https://gat-devtest.herokuapp.com)**
+**[[LIVE DEMO]](https://gat-devtest.herokuapp.com/v1/public/locations/PL)**
 
 ## Requirements
 - PostgreSQL
