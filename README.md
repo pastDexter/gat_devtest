@@ -1,24 +1,16 @@
-# README
+# GAT devtest
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Sample API created for a devtest. [Task description](https://github.com/pbc/devtest)
 
-Things you may want to cover:
+**[[LIVE DEMO]](https://gat-devtest.herokuapp.com)**
 
-* Ruby version
+## Requirements
+- PostgreSQL
 
-* System dependencies
+## Setup & running
+- `bundle install`
+- `rake db:setup`
+- `rails s`
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## API documentation
+Swagger API documentation is available [here](http://petstore.swagger.io/?url=https://raw.githubusercontent.com/pastDexter/gat_devtest/master/doc/api_docs.yaml).

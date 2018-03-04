@@ -3,7 +3,7 @@ info:
   description: "This is an API documentation for the devtest application."
   version: "1.0.0"
   title: "GAT Devtest"
-host: "loclahost:3000"
+host: "https://gat-devtest.herokuapp.com"
 basePath: "/v1"
 tags:
 - name: "private"
