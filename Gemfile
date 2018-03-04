@@ -13,6 +13,8 @@ gem 'pg'
 gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+# Use Rack Attack for blocking & throttling abusive requests
+gem 'rack-attack'
 # Use activemodel serializers fo JSON serialization
 gem 'active_model_serializers'
 
