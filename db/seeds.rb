@@ -4,7 +4,7 @@ LETTERS = ('A'..'Z').to_a
 # PanelProviders
 ##################
 
-panel_providers = PanelProvider.create([
+panel_providers = PanelProvider.create!([
   { code: 'panel-provider-code-1', pricing_logic: :time_a },
   { code: 'panel-provider-code-2', pricing_logic: :lotr_arrays },
   { code: 'panel-provider-code-3', pricing_logic: :time_nodes }
@@ -14,7 +14,7 @@ panel_providers = PanelProvider.create([
 # Countries
 ##################
 
-countries = Country.create([
+countries = Country.create!([
   { country_code: 'PL', panel_provider: panel_providers[0] },
   { country_code: 'US', panel_provider: panel_providers[1] },
   { country_code: 'AU', panel_provider: panel_providers[2] }
@@ -24,7 +24,7 @@ countries = Country.create([
 # LocationGroups
 ##################
 
-location_groups = LocationGroup.create([
+location_groups = LocationGroup.create!([
   { name: 'Group A', country: countries[0], panel_provider: panel_providers[0] },
   { name: 'Group B', country: countries[1], panel_provider: panel_providers[1] },
   { name: 'Group C', country: countries[2], panel_provider: panel_providers[2] },
@@ -37,15 +37,15 @@ location_groups = LocationGroup.create([
 
 locations_args = Array.new(20) do |i|
   l = LETTERS[i]
-  { name: "City #{l}", external_id: "c#{l}", secret_code: "secret#{l}",  }
+  { name: "City #{l}", external_id: "c#{l}", secret_code: "secret#{l}", location_groups: [location_groups[i % 4]] }
 end
-Location.create(locations_args)
+Location.create!(locations_args)
 
 ##################
 # TargetGroups
 ##################
 
-root_target_groups = TargetGroup.create([
+root_target_groups = TargetGroup.create!([
   { name: 'Target A', external_id: 'tA', secret_code: 'secretA', panel_provider: panel_providers[0], countries: [countries[0], countries[1]] },
   { name: 'Target B', external_id: 'tB', secret_code: 'secretB', panel_provider: panel_providers[1], countries: [countries[0], countries[2]] },
   { name: 'Target C', external_id: 'tC', secret_code: 'secretC', panel_provider: panel_providers[2], countries: [countries[1], countries[2]] },

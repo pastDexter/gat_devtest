@@ -7,6 +7,5 @@ class TargetGroup < ApplicationRecord
   has_and_belongs_to_many :countries
 
   validates :name, :external_id, :secret_code, presence: true
-  validates :panel_provider, presence: true, if: :root?
 
 end
